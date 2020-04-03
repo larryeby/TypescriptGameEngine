@@ -19,7 +19,7 @@ export class BaseGameObject implements IGameObject {
         this.collisionObjects = [];
         for (var i = 0; i < input.length; i++) {
             this.boxOnBoxCollision(input[i]);
-            this.circleOnboxCollision(input[i]);
+            this.circleOnBoxCollision(input[i]);
             this.circleOnCircleCollision(input[i]);
         }
 
@@ -42,7 +42,7 @@ export class BaseGameObject implements IGameObject {
         }
     }
 
-    private circleOnboxCollision(object: IGameObject): void {
+    private circleOnBoxCollision(object: IGameObject): void {
         if (this.id == object.id) {
             return;
         }
