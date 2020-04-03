@@ -49,7 +49,29 @@ export class BaseGameObject implements IGameObject {
 
         if ((this.colliderType == ColliderType.Box && object.colliderType == ColliderType.Circle)
             || (this.colliderType == ColliderType.Circle && object.colliderType == ColliderType.Box)) {
-            // Check collision
+                let circle = this.colliderType == ColliderType.Circle ? this : object;
+                let box = this.colliderType == ColliderType.Box ? this : object;
+                let circleRadius = circle.width / 2 * 3.14;
+
+                var distX = Math.abs(circle.x - box.x - box.width/2);
+                var distY = Math.abs(circle.y - box.y - box.height/2);
+
+                if (distX > (box.width/2 + circleRadius)) { return; }
+                if (distY > (box.height/2 + circleRadius)) { return; }
+
+                if (distX <= (box.width/2)) { 
+                    this.collisionObjects.push(object);
+                 } 
+                if (distY <= (box.height/2)) { 
+                    this.collisionObjects.push(object);
+                 }
+
+                var dx=distX-box.width/2;
+                var dy=distY-box.height/2;
+                
+                if (dx * dx + dy * dy <= (circleRadius * circleRadius)) {
+                    this.collisionObjects.push(object);
+                }
         }
     }
 

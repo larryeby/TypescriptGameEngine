@@ -1,12 +1,14 @@
 export interface IGameObject {
     id: string;
-    isCollidable: boolean;
-    collisionObjects: IGameObject[];
     x: number;
     y: number;
-    colliderType: ColliderType | null;
     height: number;
     width: number;
+
+    isCollidable: boolean;
+    collisionObjects: IGameObject[];
+    colliderType: ColliderType | null;
+
     initialize: () => void;
     checkCollisions: (input: IGameObject[]) => void;
     update: () => void;
