@@ -30,14 +30,15 @@ export class PlayfieldComponent implements OnInit {
     // }
     let player = new Player();
     player.id = "player1";
-    player.x = 0;
-    player.y = 0;
+    player.x = 100;
+    player.y = 399;
     this.gameEngineService.registerObject(player);
 
     let player2 = new Player();
     player2.id = "player21";
-    player2.x = window.innerHeight;
-    player2.y = window.innerWidth;
+    player2.x = window.innerWidth;
+    player2.y = 300;
+    player2.labels = [ "test label" ]
     this.gameEngineService.registerObject(player2);
 
     this.gameEngineService.animate();

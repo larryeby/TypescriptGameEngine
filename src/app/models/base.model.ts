@@ -5,18 +5,20 @@ export class BaseGameObject implements IGameObject {
     x: number = 0;
     y: number = 0;
 
-    colliderType: ColliderType | null;
-    isCollidable: boolean = false;
-    collisionObjects: IGameObject[] = [];
-
     height: number = 0;
     width: number = 0;
 
-    initialize() {};
-    update() {};
-    render(ctx: CanvasRenderingContext2D) {};
+    colliderType: ColliderType | null;
+    isCollidable: boolean = false;
+    labels: string[] = [];
+
+    initialize() { };
+    update() { };
+    render(ctx: CanvasRenderingContext2D) { };
+    collision(input: IGameObject) {
+        console.log("Base collision detected from " + input.id);
+    };
     checkCollisions(input: IGameObject[]) {
-        this.collisionObjects = [];
         for (var i = 0; i < input.length; i++) {
             this.boxOnBoxCollision(input[i]);
             this.circleOnBoxCollision(input[i]);
@@ -36,8 +38,8 @@ export class BaseGameObject implements IGameObject {
             var dy = this.y - object.y;
             var distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < this.width / 2 * 3.14 + object.width / 2 * 3.14) {
-                this.collisionObjects.push(object);
+            if (distance < (this.width / 2) + (object.width / 2)) {
+                this.collision(object);
             }
         }
     }
@@ -49,29 +51,29 @@ export class BaseGameObject implements IGameObject {
 
         if ((this.colliderType == ColliderType.Box && object.colliderType == ColliderType.Circle)
             || (this.colliderType == ColliderType.Circle && object.colliderType == ColliderType.Box)) {
-                let circle = this.colliderType == ColliderType.Circle ? this : object;
-                let box = this.colliderType == ColliderType.Box ? this : object;
-                let circleRadius = circle.width / 2 * 3.14;
+            let circle = this.colliderType == ColliderType.Circle ? this : object;
+            let box = this.colliderType == ColliderType.Box ? this : object;
+            let circleRadius = circle.width / 2;
 
-                var distX = Math.abs(circle.x - box.x - box.width/2);
-                var distY = Math.abs(circle.y - box.y - box.height/2);
+            var distX = Math.abs(circle.x - box.x - box.width / 2);
+            var distY = Math.abs(circle.y - box.y - box.height / 2);
 
-                if (distX > (box.width/2 + circleRadius)) { return; }
-                if (distY > (box.height/2 + circleRadius)) { return; }
+            if (distX > (box.width / 2 + circleRadius)) { return; }
+            if (distY > (box.height / 2 + circleRadius)) { return; }
 
-                if (distX <= (box.width/2)) { 
-                    this.collisionObjects.push(object);
-                 } 
-                if (distY <= (box.height/2)) { 
-                    this.collisionObjects.push(object);
-                 }
+            if (distX <= (box.width / 2)) {
+                this.collision(object);
+            }
+            if (distY <= (box.height / 2)) {
+                this.collision(object);
+            }
 
-                var dx=distX-box.width/2;
-                var dy=distY-box.height/2;
-                
-                if (dx * dx + dy * dy <= (circleRadius * circleRadius)) {
-                    this.collisionObjects.push(object);
-                }
+            var dx = distX - box.width / 2;
+            var dy = distY - box.height / 2;
+
+            if (dx * dx + dy * dy <= (circleRadius * circleRadius)) {
+                this.collision(object);
+            }
         }
     }
 
@@ -85,8 +87,8 @@ export class BaseGameObject implements IGameObject {
                 this.x + this.width > object.x &&
                 this.y < object.y + object.height &&
                 this.y + this.height > object.y) {
-                    this.collisionObjects.push(object);
-             }
+                this.collision(object);
+            }
         }
     }
 }

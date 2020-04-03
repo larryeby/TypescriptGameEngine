@@ -24,27 +24,34 @@ export class Player extends BaseGameObject {
         this.x = this.facingRight ? this.x + 5 : this.x - 5;
         this.y = this.movingUp ? this.y - 5 : this.y + 5;
 
-        if (this.x > window.innerWidth - 100) {
+        let offset = this.width / 2;
+        if (this.x + offset > window.innerWidth) {
             this.facingRight = false;
         }
 
-        if (this.x < 0 + 100) {
+        if (this.x - offset < 0) {
             this.facingRight = true;
         }
 
-        if (this.y > window.innerHeight - 100) {
+        if (this.y + offset > window.innerHeight) {
             this.movingUp = true;
         }
 
-        if (this.y < 0 + 100) {
+        if (this.y - offset < 0) {
             this.movingUp = false;
         }
     };
 
+    collision(input: IGameObject) {
+        if (input.labels.includes("test label")) {
+            console.log("Parent collision detected from incoming " + input.id + " with label 'test label'");
+        }
+    }
+
     render (ctx: CanvasRenderingContext2D) {
         ctx.beginPath();
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-        ctx.arc(this.x - 5, this.y - 5, 100, 0, Math.PI * 2, false)
+        ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2, false)
         ctx.fill();
     };
 }

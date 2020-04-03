@@ -6,13 +6,14 @@ export interface IGameObject {
     width: number;
 
     isCollidable: boolean;
-    collisionObjects: IGameObject[];
     colliderType: ColliderType | null;
+    labels: string[];
 
     initialize: () => void;
     checkCollisions: (input: IGameObject[]) => void;
     update: () => void;
     render: (ctx: CanvasRenderingContext2D) => void;
+    collision: (input: IGameObject) => void;
 }
 
 export enum ColliderType {
