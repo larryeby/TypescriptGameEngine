@@ -21,25 +21,26 @@ export class PlayfieldComponent implements OnInit {
   }
 
   private loadGame(): void {
-    // for (var i = 0; i < 100; i++) {
-    //   let player = new Player();
-    //   player.id = "player" + i;
-    //   player.x = Math.floor(Math.random() * i * i);
-    //   player.y = Math.floor(Math.random() * i * i);
-    //   this.gameEngineService.registerObject(player);
-    // }
-    let player = new Player();
-    player.id = "player1";
-    player.x = 100;
-    player.y = 399;
-    this.gameEngineService.registerObject(player);
+    for (var i = 0; i < 20; i++) {
+      let player = new Player();
+      player.id = "player" + i;
+      player.x = Math.floor(Math.random() * i * i);
+      player.y = Math.floor(Math.random() * i * i);
+      player.labels = [ `${i}` ]
+      this.gameEngineService.registerObject(player);
+    }
+    // let player = new Player();
+    // player.id = "player1";
+    // player.x = 100;
+    // player.y = 399;
+    // this.gameEngineService.registerObject(player);
 
-    let player2 = new Player();
-    player2.id = "player21";
-    player2.x = window.innerWidth;
-    player2.y = 300;
-    player2.labels = [ "test label" ]
-    this.gameEngineService.registerObject(player2);
+    // let player2 = new Player();
+    // player2.id = "player21";
+    // player2.x = window.innerWidth;
+    // player2.y = 300;
+    // player2.labels = [ "test label" ]
+    // this.gameEngineService.registerObject(player2);
 
     this.gameEngineService.animate();
   }

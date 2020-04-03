@@ -21,6 +21,36 @@ export class Player extends BaseGameObject {
 
     // PLACEHOLDER CODE TO TEST ENGINE
     update() {
+        this.movementAndRenderCheck();
+    };
+
+    collision(input: IGameObject) {
+        this.physicsCheck(input);
+    }
+
+    render (ctx: CanvasRenderingContext2D) {
+        this.renderCircle(ctx);
+    };
+
+    private physicsCheck(input: IGameObject) {
+        if (this.x > input.x) {
+            this.facingRight = true;
+            this.x++
+        } else {
+            this.facingRight = false;
+            this.x--;
+        }
+
+        if (this.y > input.y) {
+            this.movingUp = false;
+            this.y++
+        } else {
+            this.movingUp = true;
+            this.y--;
+        }
+    }
+
+    private movementAndRenderCheck() {
         this.x = this.facingRight ? this.x + 5 : this.x - 5;
         this.y = this.movingUp ? this.y - 5 : this.y + 5;
 
@@ -40,18 +70,12 @@ export class Player extends BaseGameObject {
         if (this.y - offset < 0) {
             this.movingUp = false;
         }
-    };
-
-    collision(input: IGameObject) {
-        if (input.labels.includes("test label")) {
-            console.log("Parent collision detected from incoming " + input.id + " with label 'test label'");
-        }
     }
 
-    render (ctx: CanvasRenderingContext2D) {
+    private renderCircle(ctx: CanvasRenderingContext2D) {
         ctx.beginPath();
         ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
         ctx.arc(this.x, this.y, this.width / 2, 0, Math.PI * 2, false)
         ctx.fill();
-    };
+    }
 }
