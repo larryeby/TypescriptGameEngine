@@ -1,18 +1,12 @@
+import { ICollider } from '../../colliders/interfaces/collider.interface';
+
 export interface IGameObject {
     id: string;
     x: number;
     y: number;
     height: number;
     width: number;
-
-    drawType: DrawType;
-    backgroundColor: string;
-    imagePath: string;
-    imageLoaded: boolean;
-    imageData: HTMLImageElement;
-
-    isCollidable: boolean;
-    colliderType: ColliderType | null;
+    collider: ICollider;
     labels: string[];
 
     initialize: () => void;
@@ -20,15 +14,4 @@ export interface IGameObject {
     update: () => void;
     render: (ctx: CanvasRenderingContext2D) => void;
     collision: (input: IGameObject) => void;
-}
-
-export enum ColliderType {
-    Box,
-    Circle
-}
-
-export enum DrawType {
-    Box,
-    Circle,
-    Image
 }

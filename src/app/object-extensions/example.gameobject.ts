@@ -1,6 +1,7 @@
-import { IGameObject, ColliderType, DrawType } from './interfaces/gameobject.interface';
+import { IGameObject } from '../engine/game-objects/interfaces/gameobject.interface';
 import { PlayerId } from '../constants/identifier.constants';
-import { BaseGameObject } from './base.model';
+import { BaseGameObject } from '../engine/game-objects/base.gameobject';
+import { CircleCollider } from '../engine/colliders/circle.collider';
 
 export class Example extends BaseGameObject {
     facingRight: boolean = true;
@@ -15,8 +16,7 @@ export class Example extends BaseGameObject {
     initialize(): void {
         this.height = 100;
         this.width = 100;
-        this.isCollidable = true;
-        this.colliderType = ColliderType.Box;
+        this.collider = new CircleCollider();
     }
 
     update(): void {

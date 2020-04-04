@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IGameObject } from '../models/interfaces/gameobject.interface';
+import { IGameObject } from './game-objects/interfaces/gameobject.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +46,7 @@ export class GameEngine {
           object.x + object.width >= 0 - this.renderVariance &&
           object.y - object.height - this.renderVariance <= window.innerHeight &&
           object.y + object.height >= 0 + this.renderVariance) {
-            object.checkCollisions(gameObjects.filter(x => x.isCollidable));
+            object.checkCollisions(gameObjects.filter(x => x.collider));
             object.render(this.ctx);
       }
 
