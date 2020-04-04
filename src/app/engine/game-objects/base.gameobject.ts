@@ -16,6 +16,15 @@ export class BaseGameObject implements IGameObject {
         this.initialize();
     }
 
+    private state: { [key: string]: any; } = {};
+    getState(key: string): any {
+        return this.state[key];
+    };
+
+    setState(key: string, object: any): void {
+        this.state[key] = object;
+    };
+
     protected gameContext: GameContext;
     public id: string;
     public x: number;

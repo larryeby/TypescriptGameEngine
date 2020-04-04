@@ -16,6 +16,8 @@ export interface IGameObject {
     labels: string[];
     children: IGameObject[];
 
+    getState: (key: string) => any;
+    setState: (key: string, object: any) => void;
     dispatchEvent: (event: IGameEvent) => void;
     registerContext: (context: GameContext) => void;
     initialize: () => void;

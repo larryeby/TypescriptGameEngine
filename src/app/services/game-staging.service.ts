@@ -48,7 +48,7 @@ export class GameStagingService {
       let child = new ExampleChild();
       child.xOffset = Math.floor(Math.random() * window.innerWidth / 2);
       child.yOffset = Math.floor(Math.random() * window.innerHeight / 2);
-      child.labels = [`${i}`]
+      child.labels = [`child`]
       child.collider = i % 2 === 0 ? new CircleCollider() : new BoxCollider();
       child.renderer = i % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
       child.renderer.backgroundColor = "black";

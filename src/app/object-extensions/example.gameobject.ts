@@ -22,6 +22,7 @@ export class Example extends BaseGameObject {
 
     update(): void {
         this.movementAndRenderCheck();
+        this.childMovementCheck();
     };
 
     onCollision(incoming: IGameObject): void {
@@ -68,9 +69,6 @@ export class Example extends BaseGameObject {
     }
 
     private movementAndRenderCheck(): void {
-        this.x = this.facingRight ? this.x + 5 : this.x - 5;
-        this.y = this.movingUp ? this.y - 5 : this.y + 5;
-
         let xOffset = this.collider.colliderType == ColliderType.Circle ? this.width / 2 : this.width;
         let yOffset = this.collider.colliderType == ColliderType.Circle ? this.height / 2 : this.height;
 
@@ -89,5 +87,43 @@ export class Example extends BaseGameObject {
         if (this.y - yOffset < 0) {
             this.movingUp = false;
         }
+
+        this.x = this.facingRight ? this.x + 5 : this.x - 5;
+        this.y = this.movingUp ? this.y - 5 : this.y + 5;
+    }
+
+    private childMovementCheck(): void {
+        this.children.forEach((child) => {
+            if (child.xOffset > this.width * 2) {
+                child.setState('facingRight', false);
+            } 
+            
+            if (child.xOffset < -(this.width * 2)){
+                child.setState('facingRight', true);
+            }
+
+            if (child.yOffset > this.height * 2) {
+                child.setState('movingUp', false);
+            } 
+            
+            if (child.yOffset < -(this.height * 2)){
+                child.setState('movingUp', true);
+            }
+
+            let facingRight: boolean = child.getState("facingRight");
+            let movingUp: boolean = child.getState("movingUp");
+
+            if (facingRight) {
+                child.xOffset++;
+            } else {
+                child.xOffset--;
+            }
+
+            if (movingUp) {
+                child.yOffset++;
+            } else {
+                child.yOffset--;
+            }
+        })
     }
 }
