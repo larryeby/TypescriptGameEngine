@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Player } from '../models/player.model';
-import { GameEngineService } from '../engine/game-engine';
+import { Example } from '../models/example.model';
+import { GameEngine } from '../engine/game-engine';
+import { ColliderType, DrawType } from '../models/interfaces/gameobject.interface';
 
 @Component({
   selector: 'app-playfield',
@@ -10,30 +11,40 @@ import { GameEngineService } from '../engine/game-engine';
 export class PlayfieldComponent implements OnInit {
   @ViewChild('playfield', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
   private ctx: CanvasRenderingContext2D;
-  constructor (private gameEngineService: GameEngineService) { }
+  constructor (private gameEngineService: GameEngine) { }
 
   ngOnInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.ctx.canvas.width = window.innerWidth;
     this.ctx.canvas.height = window.innerHeight;
     this.gameEngineService.registerContext(this.ctx);
-    this.loadGame();
+    this.registerGameObjects();
+    this.gameEngineService.run();
   }
 
-  private loadGame(): void {
-    for (var i = 0; i < 20; i++) {
-      let player = new Player();
-      player.id = "player" + i;
-      player.x = Math.floor(Math.random() * i * i);
-      player.y = Math.floor(Math.random() * i * i);
-      player.labels = [ `${i}` ]
-      this.gameEngineService.registerObject(player);
+  private registerGameObjects(): void {
+    for (var i = 0; i < 15; i++) {
+      let example = new Example();
+      example.id = "example" + i;
+      example.x = Math.floor(Math.random() * i * i);
+      example.y = Math.floor(Math.random() * i * i);
+      example.labels = [ `${i}` ]
+      example.colliderType = i % 2 === 0 ? ColliderType.Box : ColliderType.Circle;
+      example.drawType = i % 2 === 0 ? DrawType.Box : DrawType.Circle;
+      this.gameEngineService.registerObject(example);
     }
-    // let player = new Player();
-    // player.id = "player1";
-    // player.x = 100;
-    // player.y = 399;
-    // this.gameEngineService.registerObject(player);
+
+    let example = new Example();
+    example.id = "example-1";
+    example.x = 0;
+    example.y = 0;
+    example.height = 227;
+    example.width = 300;
+    example.labels = [ `image` ]
+    example.colliderType = ColliderType.Box;
+    example.drawType = DrawType.Image;
+    example.imagePath = "/assets/rhino.jpg"
+    this.gameEngineService.registerObject(example);
 
     // let player2 = new Player();
     // player2.id = "player21";
@@ -41,7 +52,5 @@ export class PlayfieldComponent implements OnInit {
     // player2.y = 300;
     // player2.labels = [ "test label" ]
     // this.gameEngineService.registerObject(player2);
-
-    this.gameEngineService.animate();
   }
 }

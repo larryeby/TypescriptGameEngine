@@ -1,24 +1,38 @@
-import { IGameObject, ColliderType } from './interfaces/gameobject.interface';
+import { IGameObject, ColliderType, DrawType } from './interfaces/gameobject.interface';
+import { IRenderer } from './interfaces/renderer.interface';
+import { BaseRenderer } from './base-renderer.model';
 
 export class BaseGameObject implements IGameObject {
-    id: string = "";
-    x: number = 0;
-    y: number = 0;
+    constructor() {
+        this.renderer = new BaseRenderer();
+    }
+    public id: string = "";
+    public x: number = 0;
+    public y: number = 0;
 
-    height: number = 0;
-    width: number = 0;
+    public height: number = 0;
+    public width: number = 0;
 
-    colliderType: ColliderType | null;
-    isCollidable: boolean = false;
-    labels: string[] = [];
+    public drawType: DrawType;
+    public renderer: IRenderer;
+    public backgroundColor: string = 'rgba(0, 0, 0, 0.4)';
+    public imagePath: string;
+    public imageLoaded: boolean = false;
+    public imageData: HTMLImageElement;
 
-    initialize() { };
-    update() { };
-    render(ctx: CanvasRenderingContext2D) { };
-    collision(input: IGameObject) {
-        console.log("Base collision detected from " + input.id);
+    public colliderType: ColliderType | null;
+    public isCollidable: boolean = false;
+    public labels: string[] = [];
+
+    public initialize() { };
+    public update() { };
+    public collision(input: IGameObject) { };
+
+    public render (ctx: CanvasRenderingContext2D): void {
+        this.renderer.render(ctx, this);
     };
-    checkCollisions(input: IGameObject[]) {
+
+    public checkCollisions(input: IGameObject[]) {
         for (var i = 0; i < input.length; i++) {
             this.boxOnBoxCollision(input[i]);
             this.circleOnBoxCollision(input[i]);

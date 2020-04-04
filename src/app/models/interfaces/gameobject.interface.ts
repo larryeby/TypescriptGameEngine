@@ -5,6 +5,12 @@ export interface IGameObject {
     height: number;
     width: number;
 
+    drawType: DrawType;
+    backgroundColor: string;
+    imagePath: string;
+    imageLoaded: boolean;
+    imageData: HTMLImageElement;
+
     isCollidable: boolean;
     colliderType: ColliderType | null;
     labels: string[];
@@ -19,4 +25,10 @@ export interface IGameObject {
 export enum ColliderType {
     Box,
     Circle
+}
+
+export enum DrawType {
+    Box,
+    Circle,
+    Image
 }

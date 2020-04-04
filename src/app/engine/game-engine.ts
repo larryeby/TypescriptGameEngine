@@ -4,7 +4,7 @@ import { IGameObject } from '../models/interfaces/gameobject.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class GameEngineService {
+export class GameEngine {
   private ctx: CanvasRenderingContext2D;
   private gameObjects: { [key: string]: IGameObject } = {};
   private paused: boolean = false;
@@ -14,8 +14,12 @@ export class GameEngineService {
 
   constructor() { }
 
-  public pauseGame() {
+  public pauseGame(): void {
     this.paused = !this.paused;
+    this.cycleAnimation();
+  }
+
+  public run(): void {
     this.cycleAnimation();
   }
 
@@ -51,7 +55,7 @@ export class GameEngineService {
     this.cycleAnimation();
   }
 
-  private cycleAnimation() {
+  private cycleAnimation(): void {
     if (!this.paused) {
       requestAnimationFrame(this.animate.bind(this));
     }
