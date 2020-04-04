@@ -20,7 +20,7 @@ export class GameContext {
         this.gameObjects[object.id] = object;
     }
 
-    public destroyObject(id: string): void {
-        delete this.gameObjects[id];
+    public destroyObject(object: IGameObject): void {
+        delete this.gameObjects[object.id];
     }
 }

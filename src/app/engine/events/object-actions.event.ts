@@ -20,12 +20,12 @@ export class CreateObjectEvent implements IGameEvent {
  * Destroy object event will destroy a game object from the game context.
  */
 export class DestroyObjectEvent implements IGameEvent {
-    private id: string;
-    constructor(id: string) {
-        this.id = id;
+    private object: IGameObject;
+    constructor(object: IGameObject) {
+        this.object = object;
     }
 
     activateEvent(context: GameContext) {
-        context.destroyObject(this.id);
+        context.destroyObject(this.object);
     };
 }

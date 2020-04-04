@@ -22,10 +22,10 @@ export class GameStagingService {
   }
 
   private registerCirclesAndSquaresTest(gameObjects: IGameObject[]) {
-    for (var i = 0; i < 15; i++) {
+    for (var i = 0; i < 300; i++) {
       let example = new Example();
-      example.x = Math.floor(Math.random() * window.innerWidth);
-      example.y = Math.floor(Math.random() * window.innerHeight);
+      example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
+      example.y = Math.floor(Math.random() * window.innerHeight * 1.5);
       example.labels = [ `${i}` ]
       example.collider = i % 2 === 0 ? new CircleCollider() : new BoxCollider();
       example.renderer = i % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();

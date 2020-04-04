@@ -17,8 +17,8 @@ export class Example extends BaseGameObject {
     }
 
     initialize(): void {
-        this.height = 100;
-        this.width = 100;
+        this.height = 40;
+        this.width = 40;
     }
 
     update(): void {
@@ -37,14 +37,14 @@ export class Example extends BaseGameObject {
         if (random > 97 && !input.labels.includes("image")) {
             if (Math.floor(modulo) === 0) {
                 let example = new Example();
-                example.x = Math.floor(Math.random() * window.innerWidth);
-                example.y = Math.floor(Math.random() * window.innerHeight);
+                example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
+                example.y = Math.floor(Math.random() * window.innerHeight * 1.5);
                 example.labels = [ `${1}` ]
                 example.collider = example.x % 2 === 0 ? new CircleCollider() : new BoxCollider();
                 example.renderer = example.x % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
                 this.dispatchEvent(new CreateObjectEvent(example));
             } else {
-                this.dispatchEvent(new DestroyObjectEvent(input.id));
+                this.dispatchEvent(new DestroyObjectEvent(input));
             }
         }
     }
@@ -75,19 +75,19 @@ export class Example extends BaseGameObject {
         let xOffset = this.collider.colliderType == ColliderType.Circle ? this.width / 2 : this.width;
         let yOffset = this.collider.colliderType == ColliderType.Circle ? this.height / 2 : this.height;
 
-        if (this.x + xOffset > window.innerWidth) {
+        if (this.x + xOffset > window.innerWidth * 1.5) {
             this.facingRight = false;
         }
 
-        if (this.x - xOffset < 0) {
+        if (this.x - xOffset < 0 -window.innerWidth / 2) {
             this.facingRight = true;
         }
 
-        if (this.y + yOffset > window.innerHeight) {
+        if (this.y + yOffset > window.innerHeight * 1.5) {
             this.movingUp = true;
         }
 
-        if (this.y - yOffset < 0) {
+        if (this.y - yOffset < 0 - window.innerHeight / 2) {
             this.movingUp = false;
         }
     }
