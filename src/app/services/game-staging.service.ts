@@ -17,14 +17,14 @@ export class GameStagingService {
 
   public loadGameData(gameEngine: GameEngine) {
     let gameObjects: IGameObject[] = [];
-    // this.registerCirclesAndSquaresTest(gameObjects);
+    this.registerCirclesAndSquaresTest(gameObjects);
     // this.registerStaticImageTest(gameObjects);
     this.registerChildObjectTest(gameObjects);
     gameEngine.loadObjects(gameObjects);
   }
 
   private registerCirclesAndSquaresTest(gameObjects: IGameObject[]) {
-    for (var i = 0; i < 300; i++) {
+    for (var i = 0; i < 50; i++) {
       let example = new Example();
       example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
       example.y = Math.floor(Math.random() * window.innerHeight * 1.5);
@@ -39,7 +39,7 @@ export class GameStagingService {
     let example = new Example();
     example.x = Math.floor(Math.random() * window.innerWidth);
     example.y = Math.floor(Math.random() * window.innerHeight);
-    example.labels = [`${example.x}`]
+    example.labels = [`parent`]
     example.collider = example.x % 2 === 0 ? new CircleCollider() : new BoxCollider();
     example.renderer = example.x % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
     example.renderer.backgroundColor = "blue";

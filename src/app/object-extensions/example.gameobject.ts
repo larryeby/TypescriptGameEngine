@@ -27,14 +27,14 @@ export class Example extends BaseGameObject {
 
     onCollision(incoming: IGameObject): void {
         this.collisionCheck(incoming);
-        // this.eventingCheck(incoming);
+        this.eventingCheck(incoming);
     }
 
     private eventingCheck(input: IGameObject) {
         var random = Math.floor(Math.random() * 100);
         var modulo = random % 2;
 
-        if (random > 97 && !input.labels.includes("image")) {
+        if (random > 97 && !input.labels.includes("image") && !input.labels.includes("parent")) {
             if (Math.floor(modulo) === 0) {
                 let example = new Example();
                 example.x = Math.floor(Math.random() * window.innerWidth);
@@ -50,7 +50,6 @@ export class Example extends BaseGameObject {
     }
 
     private collisionCheck(input: IGameObject): void {
-
         if (this.x > input.x) {
             this.facingRight = true;
             this.x++
