@@ -19,5 +19,5 @@ export interface IGameObject {
     checkCollisions: (input: IGameObject[]) => void;
     update: () => void;
     render: (ctx: CanvasRenderingContext2D) => void;
-    collision: (input: IGameObject) => void;
+    onCollision: (incoming: IGameObject) => void;
 }

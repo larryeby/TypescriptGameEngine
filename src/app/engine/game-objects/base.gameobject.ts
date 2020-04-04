@@ -55,7 +55,7 @@ export class BaseGameObject implements IGameObject {
     };
 
     public update() { };
-    public collision(input: IGameObject) { };
+    public onCollision(incoming: IGameObject) { };
 
     private generateRandomId(): string {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

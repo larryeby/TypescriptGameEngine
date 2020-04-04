@@ -24,7 +24,7 @@ export class CircleCollider implements ICollider {
         var distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < (parent.width / 2) + (input.width / 2)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
     }
 
@@ -40,17 +40,17 @@ export class CircleCollider implements ICollider {
         if (distY > (box.height / 2 + circleRadius)) { return; }
 
         if (distX <= (box.width / 2)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
         if (distY <= (box.height / 2)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
 
         var dx = distX - box.width / 2;
         var dy = distY - box.height / 2;
 
         if (dx * dx + dy * dy <= (circleRadius * circleRadius)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
     }
 }

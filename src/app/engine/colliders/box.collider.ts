@@ -24,7 +24,7 @@ export class BoxCollider implements ICollider {
             parent.x + parent.width > input.x &&
             parent.y < input.y + input.height &&
             parent.y + parent.height > input.y) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
     }
 
@@ -40,17 +40,17 @@ export class BoxCollider implements ICollider {
         if (distY > (box.height / 2 + circleRadius)) { return; }
 
         if (distX <= (box.width / 2)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
         if (distY <= (box.height / 2)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
 
         var dx = distX - box.width / 2;
         var dy = distY - box.height / 2;
 
         if (dx * dx + dy * dy <= (circleRadius * circleRadius)) {
-            parent.collision(input);
+            parent.onCollision(input);
         }
     }
 }

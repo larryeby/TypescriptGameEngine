@@ -3,7 +3,6 @@ import { BaseGameObject } from '../engine/game-objects/base.gameobject';
 import { ColliderType } from '../engine/colliders/interfaces/collider.interface';
 import { DestroyObjectEvent, CreateObjectEvent } from '../engine/events/object-actions.event';
 import { BoxCollider } from '../engine/colliders/box.collider';
-import { StaticImageRenderer } from '../engine/renderers/static-image.renderer';
 import { Circle2DRenderer } from '../engine/renderers/circle.renderer';
 import { CircleCollider } from '../engine/colliders/circle.collider';
 import { Square2DRenderer } from '../engine/renderers/square.renderer';
@@ -25,9 +24,9 @@ export class Example extends BaseGameObject {
         this.movementAndRenderCheck();
     };
 
-    collision(input: IGameObject): void {
-        this.collisionCheck(input);
-        this.eventingCheck(input);
+    onCollision(incoming: IGameObject): void {
+        this.collisionCheck(incoming);
+        this.eventingCheck(incoming);
     }
 
     private eventingCheck(input: IGameObject) {
