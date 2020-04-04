@@ -1,7 +1,8 @@
 import { IGameObject } from './interfaces/gameobject.interface';
 import { IRenderer } from '../renderers/interfaces/renderer.interface';
-import { Circle2DRenderer } from '../renderers/circle.renderer';
 import { ICollider } from '../colliders/interfaces/collider.interface';
+import { GameContext } from '../game-context';
+import { IGameEvent } from '../events/interfaces/game-event.interface';
 
 export class BaseGameObject implements IGameObject {
     constructor() { 
@@ -9,6 +10,7 @@ export class BaseGameObject implements IGameObject {
         this.initialize();
     }
 
+    protected gameContext: GameContext;
     public id: string;
     public x: number;
     public y: number;
@@ -25,6 +27,14 @@ export class BaseGameObject implements IGameObject {
         this.y = 0;
         this.width = 0;
         this.height = 0;
+    };
+
+    public registerContext(context: GameContext) {
+        this.gameContext = context;
+    };
+    
+    public dispatchEvent(event: IGameEvent) {
+        this.gameContext.dispatchEvent(event);
     };
 
     public render (ctx: CanvasRenderingContext2D): void {

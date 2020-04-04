@@ -6,6 +6,7 @@ import { Square2DRenderer } from '../engine/renderers/square.renderer';
 import { BoxCollider } from '../engine/colliders/box.collider';
 import { Example } from '../object-extensions/example.gameobject';
 import { StaticImageRenderer } from '../engine/renderers/static-image.renderer';
+import { IGameObject } from '../engine/game-objects/interfaces/gameobject.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,23 +15,25 @@ export class GameStagingService {
   constructor() { }
 
   public loadGameData(gameEngine: GameEngine) {
-    this.registerCirclesAndSquaresTest(gameEngine);
-    this.registerStaticImageTest(gameEngine);
+    let gameObjects: IGameObject[] = [];
+    this.registerCirclesAndSquaresTest(gameObjects);
+    this.registerStaticImageTest(gameObjects);
+    gameEngine.loadObjects(gameObjects);
   }
 
-  private registerCirclesAndSquaresTest(gameEngine: GameEngine) {
+  private registerCirclesAndSquaresTest(gameObjects: IGameObject[]) {
     for (var i = 0; i < 15; i++) {
       let example = new Example();
-      example.x = Math.floor(Math.random() * i * i);
-      example.y = Math.floor(Math.random() * i * i);
+      example.x = Math.floor(Math.random() * window.innerWidth);
+      example.y = Math.floor(Math.random() * window.innerHeight);
       example.labels = [ `${i}` ]
       example.collider = i % 2 === 0 ? new CircleCollider() : new BoxCollider();
       example.renderer = i % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
-      gameEngine.registerObject(example);
+      gameObjects.push(example);
     }
   }
 
-  private registerStaticImageTest(gameEngine: GameEngine) {
+  private registerStaticImageTest(gameObjects: IGameObject[]) {
     let example = new Example();
     example.x = 0;
     example.y = 0;
@@ -39,6 +42,6 @@ export class GameStagingService {
     example.labels = [ `image` ]
     example.collider = new BoxCollider();
     example.renderer = new StaticImageRenderer("/assets/rhino.jpg");
-    gameEngine.registerObject(example);
+    gameObjects.push(example);
   }
 }

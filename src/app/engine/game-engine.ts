@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import { IGameObject } from './game-objects/interfaces/gameobject.interface';
+import { GameContext } from './game-context';
+import { CreateObjectEvent } from './events/object-actions.event';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameEngine {
-  private gameObjects: { [key: string]: IGameObject } = {};
+  private gameContext: GameContext;
   private ctx: CanvasRenderingContext2D;
   private paused: boolean = false;
 
   // This variable controls when objects should begin drawing to the canvas.
   private renderVariance: number = 5;
 
-  constructor() { }
+  constructor() { 
+    this.gameContext = new GameContext();
+  }
 
   public togglePause(): void {
     this.paused = !this.paused;
@@ -27,17 +31,15 @@ export class GameEngine {
     this.ctx = ctx;
   }
 
-  public registerObject(object: IGameObject): void {
-    this.gameObjects[object.id] = object;
-  }
-
-  public destroyObject(object: IGameObject): void {
-    delete this.gameObjects[object.id];
+  public loadObjects(objects: IGameObject[]): void {
+    objects.forEach((object) => {
+      this.gameContext.dispatchEvent(new CreateObjectEvent(object));
+    });
   }
 
   public animate(): void {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    var gameObjects = Object.values(this.gameObjects);
+    var gameObjects = Object.values(this.gameContext.getGameObjects());
     gameObjects.forEach(object => {
       object.update();
       

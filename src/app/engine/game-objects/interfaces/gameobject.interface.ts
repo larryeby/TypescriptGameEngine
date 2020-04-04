@@ -1,5 +1,7 @@
 import { ICollider } from '../../colliders/interfaces/collider.interface';
 import { IRenderer } from '../../renderers/interfaces/renderer.interface';
+import { GameContext } from '../../game-context';
+import { IGameEvent } from '../../events/interfaces/game-event.interface';
 
 export interface IGameObject {
     id: string;
@@ -11,6 +13,8 @@ export interface IGameObject {
     renderer: IRenderer | null;
     labels: string[];
 
+    dispatchEvent: (event: IGameEvent) => void;
+    registerContext: (context: GameContext) => void;
     initialize: () => void;
     checkCollisions: (input: IGameObject[]) => void;
     update: () => void;
