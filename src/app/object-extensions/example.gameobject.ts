@@ -26,7 +26,7 @@ export class Example extends BaseGameObject {
 
     onCollision(incoming: IGameObject): void {
         this.collisionCheck(incoming);
-        this.eventingCheck(incoming);
+        // this.eventingCheck(incoming);
     }
 
     private eventingCheck(input: IGameObject) {
@@ -36,8 +36,8 @@ export class Example extends BaseGameObject {
         if (random > 97 && !input.labels.includes("image")) {
             if (Math.floor(modulo) === 0) {
                 let example = new Example();
-                example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
-                example.y = Math.floor(Math.random() * window.innerHeight * 1.5);
+                example.x = Math.floor(Math.random() * window.innerWidth);
+                example.y = Math.floor(Math.random() * window.innerHeight);
                 example.labels = [ `${1}` ]
                 example.collider = example.x % 2 === 0 ? new CircleCollider() : new BoxCollider();
                 example.renderer = example.x % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
@@ -74,19 +74,19 @@ export class Example extends BaseGameObject {
         let xOffset = this.collider.colliderType == ColliderType.Circle ? this.width / 2 : this.width;
         let yOffset = this.collider.colliderType == ColliderType.Circle ? this.height / 2 : this.height;
 
-        if (this.x + xOffset > window.innerWidth * 1.5) {
+        if (this.x + xOffset > window.innerWidth) {
             this.facingRight = false;
         }
 
-        if (this.x - xOffset < 0 -window.innerWidth / 2) {
+        if (this.x - xOffset < 0) {
             this.facingRight = true;
         }
 
-        if (this.y + yOffset > window.innerHeight * 1.5) {
+        if (this.y + yOffset > window.innerHeight) {
             this.movingUp = true;
         }
 
-        if (this.y - yOffset < 0 - window.innerHeight / 2) {
+        if (this.y - yOffset < 0) {
             this.movingUp = false;
         }
     }

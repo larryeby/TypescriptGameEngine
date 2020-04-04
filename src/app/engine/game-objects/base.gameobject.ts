@@ -7,6 +7,12 @@ import { IGameEvent } from '../events/interfaces/game-event.interface';
 export class BaseGameObject implements IGameObject {
     constructor() { 
         this.id = this.generateRandomId();
+        this.x = 0;
+        this.y = 0;
+        this.xOffset = 0;
+        this.yOffset = 0;
+        this.width = 0;
+        this.height = 0;
         this.initialize();
     }
 
@@ -14,6 +20,8 @@ export class BaseGameObject implements IGameObject {
     public id: string;
     public x: number;
     public y: number;
+    public xOffset: number;
+    public yOffset: number;
 
     public height: number;
     public width: number;
@@ -22,12 +30,9 @@ export class BaseGameObject implements IGameObject {
     public collider: ICollider | null;
     public labels: string[] = [];
 
-    public initialize() { 
-        this.x = 0;
-        this.y = 0;
-        this.width = 0;
-        this.height = 0;
-    };
+    public children: IGameObject[] = [];
+
+    public initialize() {};
 
     public registerContext(context: GameContext) {
         this.gameContext = context;

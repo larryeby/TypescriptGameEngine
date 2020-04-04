@@ -7,11 +7,14 @@ export interface IGameObject {
     id: string;
     x: number;
     y: number;
+    xOffset: number;
+    yOffset: number;
     height: number;
     width: number;
     collider: ICollider | null;
     renderer: IRenderer | null;
     labels: string[];
+    children: IGameObject[];
 
     dispatchEvent: (event: IGameEvent) => void;
     registerContext: (context: GameContext) => void;

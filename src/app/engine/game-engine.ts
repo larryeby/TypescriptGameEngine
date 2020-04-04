@@ -40,6 +40,11 @@ export class GameEngine {
   public animate(): void {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     var gameObjects = Object.values(this.gameContext.getGameObjects());
+    this.handleObjectLoop(gameObjects);
+    this.cycleAnimation();
+  }
+
+  private handleObjectLoop(gameObjects: IGameObject[]) {
     gameObjects.forEach(object => {
       object.update();
       
@@ -52,9 +57,15 @@ export class GameEngine {
             object.render(this.ctx);
       }
 
-    });
+      if (object.children.length > 0) {
+        this.handleObjectLoop(object.children.map((child) => {
+          child.x = object.x;
+          child.y = object.y;
+          return child;
+        }));
+      }
 
-    this.cycleAnimation();
+    });
   }
 
   private cycleAnimation(): void {

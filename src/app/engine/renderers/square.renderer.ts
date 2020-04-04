@@ -6,7 +6,7 @@ export class Square2DRenderer implements IRenderer {
     render(ctx: CanvasRenderingContext2D, object: IGameObject): void  {
         ctx.beginPath();
         ctx.fillStyle = this.backgroundColor;
-        ctx.fillRect(object.x, object.y, object.width, object.height);
+        ctx.fillRect(object.x + object.xOffset, object.y + object.yOffset, object.width, object.height);
         ctx.closePath();
     };
 
