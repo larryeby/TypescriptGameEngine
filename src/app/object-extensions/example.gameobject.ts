@@ -1,7 +1,6 @@
 import { IGameObject } from '../engine/game-objects/interfaces/gameobject.interface';
-import { PlayerId } from '../constants/identifier.constants';
 import { BaseGameObject } from '../engine/game-objects/base.gameobject';
-import { CircleCollider } from '../engine/colliders/circle.collider';
+import { ColliderType } from '../engine/colliders/interfaces/collider.interface';
 
 export class Example extends BaseGameObject {
     facingRight: boolean = true;
@@ -9,14 +8,11 @@ export class Example extends BaseGameObject {
 
     constructor() {
         super();
-        this.id = PlayerId;
-        this.initialize();
     }
 
     initialize(): void {
         this.height = 100;
         this.width = 100;
-        this.collider = new CircleCollider();
     }
 
     update(): void {
@@ -49,20 +45,22 @@ export class Example extends BaseGameObject {
         this.x = this.facingRight ? this.x + 5 : this.x - 5;
         this.y = this.movingUp ? this.y - 5 : this.y + 5;
 
-        let offset = this.width / 2;
-        if (this.x + offset > window.innerWidth) {
+        let xOffset = this.collider.colliderType == ColliderType.Circle ? this.width / 2 : this.width;
+        let yOffset = this.collider.colliderType == ColliderType.Circle ? this.height / 2 : this.height;
+        
+        if (this.x + xOffset > window.innerWidth) {
             this.facingRight = false;
-        }
+        } 
 
-        if (this.x - offset < 0) {
+        if (this.x - xOffset < 0) {
             this.facingRight = true;
         }
 
-        if (this.y + offset > window.innerHeight) {
+        if (this.y + yOffset > window.innerHeight) {
             this.movingUp = true;
         }
 
-        if (this.y - offset < 0) {
+        if (this.y - yOffset < 0) {
             this.movingUp = false;
         }
     }

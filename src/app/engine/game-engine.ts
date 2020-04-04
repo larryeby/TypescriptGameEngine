@@ -5,8 +5,8 @@ import { IGameObject } from './game-objects/interfaces/gameobject.interface';
   providedIn: 'root'
 })
 export class GameEngine {
-  private ctx: CanvasRenderingContext2D;
   private gameObjects: { [key: string]: IGameObject } = {};
+  private ctx: CanvasRenderingContext2D;
   private paused: boolean = false;
 
   // This variable controls when objects should begin drawing to the canvas.
@@ -14,7 +14,7 @@ export class GameEngine {
 
   constructor() { }
 
-  public pauseGame(): void {
+  public togglePause(): void {
     this.paused = !this.paused;
     this.cycleAnimation();
   }
@@ -36,7 +36,7 @@ export class GameEngine {
   }
 
   public animate(): void {
-    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     var gameObjects = Object.values(this.gameObjects);
     gameObjects.forEach(object => {
       object.update();

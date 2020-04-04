@@ -1,4 +1,5 @@
 import { ICollider } from '../../colliders/interfaces/collider.interface';
+import { IRenderer } from '../../renderers/interfaces/renderer.interface';
 
 export interface IGameObject {
     id: string;
@@ -6,7 +7,8 @@ export interface IGameObject {
     y: number;
     height: number;
     width: number;
-    collider: ICollider;
+    collider: ICollider | null;
+    renderer: IRenderer | null;
     labels: string[];
 
     initialize: () => void;

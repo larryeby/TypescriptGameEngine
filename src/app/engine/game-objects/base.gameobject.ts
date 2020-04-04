@@ -4,26 +4,34 @@ import { Circle2DRenderer } from '../renderers/circle.renderer';
 import { ICollider } from '../colliders/interfaces/collider.interface';
 
 export class BaseGameObject implements IGameObject {
-    constructor() {
-        this.renderer = new Circle2DRenderer();
+    constructor() { 
+        this.id = this.generateRandomId();
+        this.initialize();
     }
-    public id: string = "";
-    public x: number = 0;
-    public y: number = 0;
 
-    public height: number = 0;
-    public width: number = 0;
+    public id: string;
+    public x: number;
+    public y: number;
 
-    public renderer: IRenderer;
+    public height: number;
+    public width: number;
+
+    public renderer: IRenderer | null;
     public collider: ICollider | null;
     public labels: string[] = [];
 
-    public initialize() { };
-    public update() { };
-    public collision(input: IGameObject) { };
+    public initialize() { 
+        this.x = 0;
+        this.y = 0;
+        this.width = 0;
+        this.height = 0;
+    };
 
     public render (ctx: CanvasRenderingContext2D): void {
-        this.renderer.render(ctx, this);
+        if (this.renderer) {
+            let scope = this;
+            this.renderer.render(ctx, scope);
+        }
     };
 
     public checkCollisions(input: IGameObject[]) {
@@ -35,4 +43,14 @@ export class BaseGameObject implements IGameObject {
 
         return [];
     };
+
+    public update() { };
+    public collision(input: IGameObject) { };
+
+    private generateRandomId(): string {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+    }
 }

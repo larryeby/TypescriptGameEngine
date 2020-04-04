@@ -22,7 +22,9 @@ export class StaticImageRenderer implements IRenderer {
         }
         
         if (this.imageLoaded) {
+            ctx.beginPath()
             ctx.drawImage(this.imageData, object.x, object.y, object.width, object.height);
+            ctx.closePath();
         }
     };
 
