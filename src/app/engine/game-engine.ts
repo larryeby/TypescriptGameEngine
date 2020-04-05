@@ -41,6 +41,7 @@ export class GameEngine {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     var gameObjects = Object.values(this.gameContext.getGameObjects());
     this.handleObjectLoop(gameObjects, gameObjects);
+    this.gameContext.triggerEvents();
     this.cycleAnimation();
   }
 

@@ -3,12 +3,22 @@ import { IGameEvent } from './events/interfaces/game-event.interface';
 
 export class GameContext {
     private gameObjects: { [key: string]: IGameObject };
+    private stagedEvents: Array<IGameEvent> = [];
+
     constructor() {
         this.gameObjects = {};
     }
 
+    public triggerEvents() {
+        for (let i = 0; i < this.stagedEvents.length; i++) {
+            this.stagedEvents[i].activateEvent(this);
+        }
+
+        this.stagedEvents = [];
+    }
+
     public dispatchEvent(event: IGameEvent) {
-        event.activateEvent(this);
+        this.stagedEvents.push(event);
     }
 
     public getGameObjects(): { [key: string]: IGameObject } {
