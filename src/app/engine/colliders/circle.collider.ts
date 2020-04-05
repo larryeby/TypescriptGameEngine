@@ -19,8 +19,14 @@ export class CircleCollider implements ICollider {
     };
 
     private detectCircleCollisions(parent: IGameObject, input: IGameObject): void {
-        var dx = parent.x - input.x;
-        var dy = parent.y - input.y;
+        let parentAbsX = parent.x + parent.xOffset;
+        let inputAbsX = input.x + input.xOffset;
+
+        let parentAbsY = parent.y + parent.yOffset;
+        let inputAbsY = input.y + input.yOffset;
+        
+        var dx = parentAbsX - inputAbsX;
+        var dy = parentAbsY - inputAbsY;
         var distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < (parent.width / 2) + (input.width / 2)) {
@@ -29,12 +35,18 @@ export class CircleCollider implements ICollider {
     }
 
     private detectSquareCollisions(parent: IGameObject, input: IGameObject): void {
+        let parentAbsX = parent.x + parent.xOffset;
+        let inputAbsX = input.x + input.xOffset;
+
+        let parentAbsY = parent.y + parent.yOffset;
+        let inputAbsY = input.y + input.yOffset;
+
         let circle = parent;
         let box = input;
         let circleRadius = circle.width / 2;
 
-        var distX = Math.abs(circle.x - box.x - box.width / 2);
-        var distY = Math.abs(circle.y - box.y - box.height / 2);
+        var distX = Math.abs(parentAbsX - inputAbsX - box.width / 2);
+        var distY = Math.abs(parentAbsY - inputAbsY - box.height / 2);
 
         if (distX > (box.width / 2 + circleRadius)) { return; }
         if (distY > (box.height / 2 + circleRadius)) { return; }

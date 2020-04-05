@@ -5,6 +5,7 @@ import { IGameEvent } from '../../events/interfaces/game-event.interface';
 
 export interface IGameObject {
     id: string;
+    parentId: string;
     x: number;
     y: number;
     xOffset: number;
@@ -14,15 +15,16 @@ export interface IGameObject {
     collider: ICollider | null;
     renderer: IRenderer | null;
     labels: string[];
-    children: IGameObject[];
+    children: IGameObject[]
 
-    getState: (key: string) => any;
-    setState: (key: string, object: any) => void;
-    dispatchEvent: (event: IGameEvent) => void;
-    registerContext: (context: GameContext) => void;
     initialize: () => void;
-    checkCollisions: (input: IGameObject[]) => void;
     update: () => void;
     render: (ctx: CanvasRenderingContext2D) => void;
+    attach: (child: IGameObject) => void;
+    getState: (key: string) => any;
+    setState: (key: string, object: any) => void;
+    registerContext: (context: GameContext) => void;
+    dispatchEvent: (event: IGameEvent) => void;
+    checkCollisions: (input: IGameObject[]) => void;
     onCollision: (incoming: IGameObject) => void;
 }

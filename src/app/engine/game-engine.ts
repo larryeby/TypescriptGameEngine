@@ -40,20 +40,21 @@ export class GameEngine {
   public animate(): void {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     var gameObjects = Object.values(this.gameContext.getGameObjects());
-    this.handleObjectLoop(gameObjects);
+    this.handleObjectLoop(gameObjects, gameObjects);
     this.cycleAnimation();
   }
 
-  private handleObjectLoop(gameObjects: IGameObject[]) {
-    gameObjects.forEach(object => {
+  private handleObjectLoop(updatingGameObjects: IGameObject[], collisionObjects: IGameObject[]) {
+    updatingGameObjects.forEach(object => {
       object.update();
       
       // Check whether the item is in the frame before rendering.
+      collisionObjects = collisionObjects.concat(object.children).filter(x => x.collider);
       if (object.x - object.width + this.renderVariance <= window.innerWidth && 
           object.x + object.width >= 0 - this.renderVariance &&
           object.y - object.height - this.renderVariance <= window.innerHeight &&
           object.y + object.height >= 0 + this.renderVariance) {
-            object.checkCollisions(gameObjects.filter(x => x.collider));
+            object.checkCollisions(collisionObjects);
             object.render(this.ctx);
       }
 
@@ -62,9 +63,8 @@ export class GameEngine {
           child.x = object.x;
           child.y = object.y;
           return child;
-        }));
+        }), collisionObjects);
       }
-
     });
   }
 

@@ -20,21 +20,33 @@ export class BoxCollider implements ICollider {
     };
 
     private detectSquareCollisions(parent: IGameObject, input: IGameObject): void {
-        if (parent.x < input.x + input.width &&
-            parent.x + parent.width > input.x &&
-            parent.y < input.y + input.height &&
-            parent.y + parent.height > input.y) {
+        let parentAbsX = parent.x + parent.xOffset;
+        let inputAbsX = input.x + input.xOffset;
+
+        let parentAbsY = parent.y + parent.yOffset;
+        let inputAbsY = input.y + input.yOffset;
+
+        if (parentAbsX < inputAbsX + input.width &&
+            parentAbsX + parent.width > inputAbsX &&
+            parentAbsY < inputAbsY + input.height &&
+            parentAbsY + parent.height > inputAbsY) {
             parent.onCollision(input);
         }
     }
 
     private detectCircleCollisions(parent: IGameObject, input: IGameObject): void {
+        let parentAbsX = parent.x + parent.xOffset;
+        let inputAbsX = input.x + input.xOffset;
+
+        let parentAbsY = parent.y + parent.yOffset;
+        let inputAbsY = input.y + input.yOffset;
+
         let circle = input;
         let box = parent;
         let circleRadius = circle.width / 2;
 
-        var distX = Math.abs(circle.x - box.x - box.width / 2);
-        var distY = Math.abs(circle.y - box.y - box.height / 2);
+        var distX = Math.abs(inputAbsX - parentAbsX - box.width / 2);
+        var distY = Math.abs(inputAbsY - parentAbsY - box.height / 2);
 
         if (distX > (box.width / 2 + circleRadius)) { return; }
         if (distY > (box.height / 2 + circleRadius)) { return; }

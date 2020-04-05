@@ -10,6 +10,7 @@ import { Square2DRenderer } from '../engine/renderers/square.renderer';
 export class Example extends BaseGameObject {
     facingRight: boolean = true;
     movingUp: boolean = false;
+    speed: number = 3;
 
     constructor() {
         super();
@@ -26,6 +27,12 @@ export class Example extends BaseGameObject {
     };
 
     onCollision(incoming: IGameObject): void {
+        if (this.children.includes(incoming)) {
+            this.renderer.backgroundColor = "yellow";
+        } else if (incoming.labels.includes("child")) {
+            this.renderer.backgroundColor = "white";
+        }
+
         this.collisionCheck(incoming);
         this.eventingCheck(incoming);
     }
@@ -50,6 +57,10 @@ export class Example extends BaseGameObject {
     }
 
     private collisionCheck(input: IGameObject): void {
+        if (this.children.includes(input)) {
+            return;
+        }
+
         if (this.x > input.x) {
             this.facingRight = true;
             this.x++
@@ -87,25 +98,25 @@ export class Example extends BaseGameObject {
             this.movingUp = false;
         }
 
-        this.x = this.facingRight ? this.x + 5 : this.x - 5;
-        this.y = this.movingUp ? this.y - 5 : this.y + 5;
+        this.x = this.facingRight ? this.x + this.speed : this.x - this.speed;
+        this.y = this.movingUp ? this.y - this.speed : this.y + this.speed;
     }
 
     private childMovementCheck(): void {
         this.children.forEach((child) => {
-            if (child.xOffset > this.width * 2) {
+            if (child.xOffset > this.width * 4) {
                 child.setState('facingRight', false);
             } 
             
-            if (child.xOffset < -(this.width * 2)){
+            if (child.xOffset < -(this.width * 4)){
                 child.setState('facingRight', true);
             }
 
-            if (child.yOffset > this.height * 2) {
+            if (child.yOffset > this.height * 4) {
                 child.setState('movingUp', false);
             } 
             
-            if (child.yOffset < -(this.height * 2)){
+            if (child.yOffset < -(this.height * 4)){
                 child.setState('movingUp', true);
             }
 

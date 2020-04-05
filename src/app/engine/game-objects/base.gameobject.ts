@@ -3,10 +3,22 @@ import { IRenderer } from '../renderers/interfaces/renderer.interface';
 import { ICollider } from '../colliders/interfaces/collider.interface';
 import { GameContext } from '../game-context';
 import { IGameEvent } from '../events/interfaces/game-event.interface';
+import { generateRandomId } from './helpers/id-gen.helper';
 
 export class BaseGameObject implements IGameObject {
-    constructor() { 
-        this.id = this.generateRandomId();
+    public id: string;
+    public parentId: string;
+    public x: number;
+    public y: number;
+    public xOffset: number;
+    public yOffset: number;
+    public height: number;
+    public width: number;
+    public labels: string[] = [];
+
+    public initialize() { };
+    constructor() {
+        this.id = generateRandomId();
         this.x = 0;
         this.y = 0;
         this.xOffset = 0;
@@ -25,39 +37,32 @@ export class BaseGameObject implements IGameObject {
         this.state[key] = object;
     };
 
-    protected gameContext: GameContext;
-    public id: string;
-    public x: number;
-    public y: number;
-    public xOffset: number;
-    public yOffset: number;
-
-    public height: number;
-    public width: number;
-
-    public renderer: IRenderer | null;
-    public collider: ICollider | null;
-    public labels: string[] = [];
-
     public children: IGameObject[] = [];
+    public attach(child: IGameObject) {
+        child.parentId = this.id;
+        this.children.push(child);
+    }
 
-    public initialize() {};
 
+    protected gameContext: GameContext;
     public registerContext(context: GameContext) {
         this.gameContext = context;
     };
-    
+
     public dispatchEvent(event: IGameEvent) {
         this.gameContext.dispatchEvent(event);
     };
 
-    public render (ctx: CanvasRenderingContext2D): void {
+    public renderer: IRenderer | null;
+    public render(ctx: CanvasRenderingContext2D): void {
         if (this.renderer) {
             let scope = this;
             this.renderer.render(ctx, scope);
         }
     };
 
+    public collider: ICollider | null;
+    public onCollision(incoming: IGameObject) { };
     public checkCollisions(input: IGameObject[]) {
         if (this.collider) {
             for (var i = 0; i < input.length; i++) {
@@ -69,12 +74,4 @@ export class BaseGameObject implements IGameObject {
     };
 
     public update() { };
-    public onCollision(incoming: IGameObject) { };
-
-    private generateRandomId(): string {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-    }
 }
