@@ -6,6 +6,7 @@ import { BoxCollider } from '../engine/colliders/box.collider';
 import { Circle2DRenderer } from '../engine/renderers/circle.renderer';
 import { CircleCollider } from '../engine/colliders/circle.collider';
 import { Square2DRenderer } from '../engine/renderers/square.renderer';
+import { InputAction } from '../engine/input/input.listeners';
 
 export class Example extends BaseGameObject {
     facingRight: boolean = true;
@@ -24,6 +25,7 @@ export class Example extends BaseGameObject {
     update(): void {
         this.movementAndRenderCheck();
         this.childMovementCheck();
+        this.inputCheck();
     };
 
     onCollision(incoming: IGameObject): void {
@@ -35,6 +37,24 @@ export class Example extends BaseGameObject {
 
         this.collisionCheck(incoming);
         this.eventingCheck(incoming);
+    }
+
+    private inputCheck() {
+        if (this.getInput(InputAction.Up)) {
+            this.y -= this.speed * 2;
+        }
+
+        if (this.getInput(InputAction.Down)) {
+            this.y += this.speed * 2;
+        }
+
+        if (this.getInput(InputAction.Left)) {
+            this.x -= this.speed * 2;
+        }
+
+        if (this.getInput(InputAction.Right)) {
+            this.x += this.speed * 2;
+        }
     }
 
     private eventingCheck(input: IGameObject) {

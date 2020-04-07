@@ -1,12 +1,18 @@
 import { IGameObject } from './game-objects/interfaces/gameobject.interface';
 import { IGameEvent } from './events/interfaces/game-event.interface';
+import { InputListener, InputAction } from './input/input.listeners';
 
 export class GameContext {
     private gameObjects: { [key: string]: IGameObject };
     private stagedEvents: Array<IGameEvent> = [];
+    private inputListener: InputListener = new InputListener();
 
     constructor() {
         this.gameObjects = {};
+    }
+
+    public getInput(input: InputAction) {
+        return this.inputListener.getInput(input);
     }
 
     public triggerEvents() {

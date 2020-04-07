@@ -4,6 +4,7 @@ import { ICollider } from '../colliders/interfaces/collider.interface';
 import { GameContext } from '../game-context';
 import { IGameEvent } from '../events/interfaces/game-event.interface';
 import { generateRandomId } from './helpers/id-gen.helper';
+import { InputAction } from '../input/input.listeners';
 
 export class BaseGameObject implements IGameObject {
     public id: string;
@@ -53,6 +54,10 @@ export class BaseGameObject implements IGameObject {
         this.gameContext.dispatchEvent(event);
     };
 
+    public getInput(input: InputAction) {
+        return this.gameContext.getInput(input);
+    }
+
     public renderer: IRenderer | null;
     public render(ctx: CanvasRenderingContext2D): void {
         if (this.renderer) {
@@ -74,4 +79,5 @@ export class BaseGameObject implements IGameObject {
     };
 
     public update() { };
+    public onDestroy() { };
 }

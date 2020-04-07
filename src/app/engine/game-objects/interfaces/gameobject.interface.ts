@@ -2,6 +2,7 @@ import { ICollider } from '../../colliders/interfaces/collider.interface';
 import { IRenderer } from '../../renderers/interfaces/renderer.interface';
 import { GameContext } from '../../game-context';
 import { IGameEvent } from '../../events/interfaces/game-event.interface';
+import { InputAction } from '../../input/input.listeners';
 
 export interface IGameObject {
     id: string;
@@ -25,6 +26,8 @@ export interface IGameObject {
     setState: (key: string, object: any) => void;
     registerContext: (context: GameContext) => void;
     dispatchEvent: (event: IGameEvent) => void;
+    getInput: (input: InputAction) => boolean;
     checkCollisions: (input: IGameObject[]) => void;
     onCollision: (incoming: IGameObject) => void;
+    onDestroy: () => void;
 }
