@@ -12,6 +12,14 @@ export class StaticImageRenderer implements IRenderer {
     }
 
     render(ctx: CanvasRenderingContext2D, object: IGameObject)  {
+        if(object.width < 0) {
+            object.width = 0;
+        }
+
+        if (object.height < 0) {
+            object.height = 0;
+        }
+        
         if (!this.imageLoaded) {
             this.imageData = new Image();
             this.imageData.src = this.imagePath;

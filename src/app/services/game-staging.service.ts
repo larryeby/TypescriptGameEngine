@@ -24,7 +24,7 @@ export class GameStagingService {
   }
 
   private registerCirclesAndSquaresTest(gameObjects: IGameObject[]) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
       let example = new Example();
       example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
       example.y = Math.floor(Math.random() * window.innerHeight * 1.5);

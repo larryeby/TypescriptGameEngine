@@ -55,13 +55,23 @@ export class Example extends BaseGameObject {
         if (this.getInput(InputAction.Right)) {
             this.x += this.speed * 2;
         }
+
+        if (this.getInput(InputAction.Control)) {
+            this.height--;
+            this.width--;
+        }
+
+        if (this.getInput(InputAction.Shift)) {
+            this.height++;
+            this.width++;
+        }
     }
 
     private eventingCheck(input: IGameObject) {
         var random = Math.floor(Math.random() * 100);
         var modulo = random % 2;
 
-        if (random > 97 && !input.labels.includes("image") && !input.labels.includes("parent")) {
+        if (random > 98 && !input.labels.includes("image") && !input.labels.includes("parent")) {
             if (Math.floor(modulo) === 0) {
                 let example = new Example();
                 example.x = Math.floor(Math.random() * window.innerWidth);

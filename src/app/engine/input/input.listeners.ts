@@ -1,7 +1,7 @@
 export class InputListener {
-    private keyEvents: { [key: number]: boolean };
+    private keyEvents: { [key: string]: boolean };
     constructor() {
-        this.keyEvents = { };
+        this.keyEvents = {};
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
         window.addEventListener("keyup", this.onKeyUp.bind(this), false);
     }
@@ -9,22 +9,34 @@ export class InputListener {
     public getInput(action: InputAction) {
         switch (action) {
             case InputAction.Up:
-                return this.keyEvents[38] || this.keyEvents[87];
+                return this.keyEvents["w"] || this.keyEvents["ArrowUp"];
             case InputAction.Down:
-                return this.keyEvents[40] || this.keyEvents[83];
+                return this.keyEvents["s"] || this.keyEvents["ArrowDown"];
             case InputAction.Left:
-                return this.keyEvents[37] || this.keyEvents[65];
+                return this.keyEvents["a"] || this.keyEvents["ArrowLeft"];
             case InputAction.Right:
-                return this.keyEvents[39] || this.keyEvents[68];
+                return this.keyEvents["d"] || this.keyEvents["ArrowRight"];
+            case InputAction.Space:
+                return this.keyEvents[" "];
+            case InputAction.Shift:
+                return this.keyEvents["Shift"]
+            case InputAction.Control:
+                return this.keyEvents["Control"]
+            case InputAction.Enter:
+                return this.keyEvents["Enter"]
         }
     }
 
+    public getKeyPress(number: string) {
+        return this.keyEvents[number];
+    }
+
     private onKeyDown(event: KeyboardEvent) {
-        this.keyEvents[event.keyCode] = true;
+        this.keyEvents[event.key] = true;
     }
 
     private onKeyUp(event: KeyboardEvent) {
-        this.keyEvents[event.keyCode] = false;
+        this.keyEvents[event.key] = false;
     }
 }
 
@@ -32,5 +44,9 @@ export enum InputAction {
     Up,
     Down,
     Left,
-    Right
+    Right,
+    Space,
+    Control,
+    Shift,
+    Enter
 }
