@@ -19,6 +19,10 @@ export class GameContext {
         return this.inputListener.getKeyPress(key);
     }
 
+    public getMousePosition(): { x: number, y: number } {
+        return this.inputListener.getMousePosition();
+    }
+
     public triggerEvents() {
         for (let i = 0; i < this.stagedEvents.length; i++) {
             this.stagedEvents[i].activateEvent(this);

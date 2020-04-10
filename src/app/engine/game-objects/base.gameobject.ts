@@ -6,6 +6,7 @@ import { IGameEvent } from '../events/interfaces/game-event.interface';
 import { generateRandomId } from './helpers/id-gen.helper';
 import { InputAction } from '../input/input.listeners';
 import { IAudioObject } from '../audio/interfaces/audio.interface';
+import { MouseGameObject } from './mouse.gameobject';
 
 export class BaseGameObject implements IGameObject {
     public id: string;
@@ -65,6 +66,25 @@ export class BaseGameObject implements IGameObject {
         return this.gameContext.getKey(key);
     }
 
+    public getMousePosition(): { x: number, y: number } {
+        return this.gameContext.getMousePosition();
+    }
+
+    public checkMouseCollision(): boolean {
+        let mousePosition = this.getMousePosition();
+        if (!mousePosition) {
+            return false;
+        }
+
+        let mouseObject = new MouseGameObject(this.id, mousePosition);
+        mouseObject.checkCollisions([this]);
+        if (mouseObject.collisionDetected) {
+            return true;
+        }
+
+        return false;
+    }
+
     public renderer: IRenderer | null;
     public render(ctx: CanvasRenderingContext2D): void {
         if (this.renderer) {
@@ -81,8 +101,6 @@ export class BaseGameObject implements IGameObject {
                 this.collider.checkCollisions(this, input[i]);
             }
         }
-
-        return [];
     };
 
     public update() { };

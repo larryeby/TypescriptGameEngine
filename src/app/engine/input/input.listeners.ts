@@ -1,12 +1,15 @@
 export class InputListener {
     private keyEvents: { [key: string]: boolean };
+    private mouseCoordinates: { x: number, y: number };
     constructor() {
         this.keyEvents = {};
-        window.addEventListener("keydown", this.onKeyDown.bind(this), false);
-        window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
 
+        window.addEventListener("keydown", this.onKeyDown.bind(this), false);
         window.addEventListener("keyup", this.onKeyUp.bind(this), false);
+
+        window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
         window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
+        window.addEventListener("mousemove", this.onMouseMove.bind(this), false);
     }
 
     public getInput(action: InputAction) {
@@ -28,14 +31,18 @@ export class InputListener {
             case InputAction.Enter:
                 return this.keyEvents["Enter"]
             case InputAction.MouseDown:
-                return this.keyEvents["mousedown"]
-            case InputAction.MouseDown:
-                return this.keyEvents["mouseup"];
+                return this.keyEvents["mouseClicked"]
+            case InputAction.MouseUp:
+                return !this.keyEvents["mouseClicked"];
         }
     }
 
     public getKeyPress(key: string) {
         return this.keyEvents[key];
+    }
+
+    public getMousePosition(): { x: number, y: number } {
+        return this.mouseCoordinates;
     }
 
     private onKeyDown(event: KeyboardEvent) {
@@ -47,11 +54,15 @@ export class InputListener {
     }
 
     private onMouseDown(event: MouseEvent) {
-        this.keyEvents[event.type] = true;
+        this.keyEvents["mouseClicked"] = true;
     }
 
     private onMouseUp(event: MouseEvent) {
-        this.keyEvents[event.type] = false;
+        this.keyEvents["mouseClicked"] = false;
+    }
+
+    private onMouseMove(event: MouseEvent) {
+        this.mouseCoordinates = { x: event.clientX, y: event.clientY };
     }
 }
 

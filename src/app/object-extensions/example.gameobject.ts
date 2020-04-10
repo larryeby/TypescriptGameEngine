@@ -26,6 +26,7 @@ export class Example extends BaseGameObject {
         this.movementAndRenderCheck();
         this.childMovementCheck();
         this.inputCheck();
+        this.clickCheck();
     };
 
     onCollision(incoming: IGameObject): void {
@@ -37,6 +38,12 @@ export class Example extends BaseGameObject {
 
         this.collisionCheck(incoming);
         this.eventingCheck(incoming);
+    }
+
+    private clickCheck() {
+        if (this.checkMouseCollision() && this.getInput(InputAction.MouseDown)) {
+            this.dispatchEvent(new DestroyObjectEvent(this))
+        }
     }
 
     private inputCheck() {
