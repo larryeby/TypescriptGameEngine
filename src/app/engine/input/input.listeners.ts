@@ -27,8 +27,8 @@ export class InputListener {
         }
     }
 
-    public getKeyPress(number: string) {
-        return this.keyEvents[number];
+    public getKeyPress(key: string) {
+        return this.keyEvents[key];
     }
 
     private onKeyDown(event: KeyboardEvent) {

@@ -8,22 +8,28 @@ import { Example } from '../object-extensions/example.gameobject';
 import { StaticImageRenderer } from '../engine/renderers/static-image.renderer';
 import { IGameObject } from '../engine/game-objects/interfaces/gameobject.interface';
 import { ExampleChild } from '../object-extensions/examplechild.gameobject';
+import { AudioSettings, BaseAudioPlayer } from '../engine/audio/audio.player';
+import { AudioGameObject } from '../object-extensions/example-audio.gameobject';
 
+/**
+ * Literally all of the code below is for testing purposes.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class GameStagingService {
   constructor() { }
 
-  public loadGameData(gameEngine: GameEngine) {
+  public loadGameData(gameEngine: GameEngine): void {
     let gameObjects: IGameObject[] = [];
     this.registerCirclesAndSquaresTest(gameObjects);
     this.registerStaticImageTest(gameObjects);
     this.registerChildObjectTest(gameObjects);
+    this.registerAudioObject(gameObjects);
     gameEngine.loadObjects(gameObjects);
   }
 
-  private registerCirclesAndSquaresTest(gameObjects: IGameObject[]) {
+  private registerCirclesAndSquaresTest(gameObjects: IGameObject[]): void {
     for (var i = 0; i < 10; i++) {
       let example = new Example();
       example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
@@ -35,7 +41,16 @@ export class GameStagingService {
     }
   }
 
-  private registerChildObjectTest(gameObjects: IGameObject[]) {
+  private registerAudioObject(gameObjects: IGameObject[]): void {
+    var audioSettings = new AudioSettings("/assets/background.wav");
+    audioSettings.startTime = 0;
+    audioSettings.maxDuration = 25;
+    audioSettings.volume = 1;
+    let audioGameObject = new AudioGameObject(audioSettings);
+    gameObjects.push(audioGameObject);
+  }
+
+  private registerChildObjectTest(gameObjects: IGameObject[]): void {
     let example = new Example();
     example.x = Math.floor(Math.random() * window.innerWidth);
     example.y = Math.floor(Math.random() * window.innerHeight);
@@ -58,7 +73,7 @@ export class GameStagingService {
     gameObjects.push(example);
   }
 
-  private registerStaticImageTest(gameObjects: IGameObject[]) {
+  private registerStaticImageTest(gameObjects: IGameObject[]): void {
     let example = new Example();
     example.x = 0;
     example.y = 0;

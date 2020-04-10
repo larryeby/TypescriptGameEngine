@@ -5,6 +5,7 @@ import { GameContext } from '../game-context';
 import { IGameEvent } from '../events/interfaces/game-event.interface';
 import { generateRandomId } from './helpers/id-gen.helper';
 import { InputAction } from '../input/input.listeners';
+import { IAudioObject } from '../audio/interfaces/audio.interface';
 
 export class BaseGameObject implements IGameObject {
     public id: string;
@@ -16,6 +17,7 @@ export class BaseGameObject implements IGameObject {
     public height: number;
     public width: number;
     public labels: string[] = [];
+    public audioPlayer: IAudioObject;
 
     public initialize() { };
     constructor() {
@@ -28,6 +30,7 @@ export class BaseGameObject implements IGameObject {
         this.height = 0;
         this.initialize();
     }
+
 
     private state: { [key: string]: any; } = {};
     getState(key: string): any {
@@ -56,6 +59,10 @@ export class BaseGameObject implements IGameObject {
 
     public getInput(input: InputAction) {
         return this.gameContext.getInput(input);
+    }
+
+    public getKey(key: string) {
+        return this.gameContext.getKey(key);
     }
 
     public renderer: IRenderer | null;

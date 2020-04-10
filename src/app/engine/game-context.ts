@@ -15,6 +15,10 @@ export class GameContext {
         return this.inputListener.getInput(input);
     }
 
+    public getKey(key: string) {
+        return this.inputListener.getKeyPress(key);
+    }
+
     public triggerEvents() {
         for (let i = 0; i < this.stagedEvents.length; i++) {
             this.stagedEvents[i].activateEvent(this);
