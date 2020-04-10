@@ -44,7 +44,7 @@ export class GameStagingService {
   private registerAudioObject(gameObjects: IGameObject[]): void {
     var audioSettings = new AudioSettings("/assets/background.wav");
     audioSettings.startTime = 0;
-    audioSettings.maxDuration = 25;
+    audioSettings.maxDuration = 6.189333;
     audioSettings.volume = 1;
     let audioGameObject = new AudioGameObject(audioSettings);
     gameObjects.push(audioGameObject);

@@ -15,14 +15,14 @@ export class AudioGameObject extends BaseGameObject {
 
     update() {
         if (this.getKey("Insert")) {
-            let current = this.audioPlayer.audioSettings.volume + 0.1;
+            let current = this.audioPlayer.getVolume() + 0.1;
             if (current < 1) {
                 this.audioPlayer.setVolume(current);
             }
         }
 
         if (this.getKey("Delete")) {
-            let current = this.audioPlayer.audioSettings.volume - 0.1;
+            let current = this.audioPlayer.getVolume() - 0.1;
             if (current > 0) {
                 this.audioPlayer.setVolume(current);
             }

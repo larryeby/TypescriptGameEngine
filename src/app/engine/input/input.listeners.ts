@@ -3,7 +3,10 @@ export class InputListener {
     constructor() {
         this.keyEvents = {};
         window.addEventListener("keydown", this.onKeyDown.bind(this), false);
+        window.addEventListener("mousedown", this.onMouseDown.bind(this), false);
+
         window.addEventListener("keyup", this.onKeyUp.bind(this), false);
+        window.addEventListener("mouseup", this.onMouseUp.bind(this), false);
     }
 
     public getInput(action: InputAction) {
@@ -24,6 +27,10 @@ export class InputListener {
                 return this.keyEvents["Control"]
             case InputAction.Enter:
                 return this.keyEvents["Enter"]
+            case InputAction.MouseDown:
+                return this.keyEvents["mousedown"]
+            case InputAction.MouseDown:
+                return this.keyEvents["mouseup"];
         }
     }
 
@@ -38,6 +45,14 @@ export class InputListener {
     private onKeyUp(event: KeyboardEvent) {
         this.keyEvents[event.key] = false;
     }
+
+    private onMouseDown(event: MouseEvent) {
+        this.keyEvents[event.type] = true;
+    }
+
+    private onMouseUp(event: MouseEvent) {
+        this.keyEvents[event.type] = false;
+    }
 }
 
 export enum InputAction {
@@ -48,5 +63,7 @@ export enum InputAction {
     Space,
     Control,
     Shift,
-    Enter
+    Enter,
+    MouseDown,
+    MouseUp
 }
