@@ -10,6 +10,8 @@ import { IGameObject } from '../engine/game-objects/interfaces/gameobject.interf
 import { ExampleChild } from '../object-extensions/examplechild.gameobject';
 import { AudioSettings, BaseAudioPlayer } from '../engine/audio/audio.player';
 import { AudioGameObject } from '../object-extensions/example-audio.gameobject';
+import { SpriteRenderer, SpriteOptions } from '../engine/renderers/sprite.renderer';
+import { ExampleSpriteObject } from '../object-extensions/example-sprite-animation.gameobject';
 
 /**
  * Literally all of the code below is for testing purposes.
@@ -25,12 +27,13 @@ export class GameStagingService {
     this.registerCirclesAndSquaresTest(gameObjects);
     this.registerStaticImageTest(gameObjects);
     this.registerChildObjectTest(gameObjects);
-    this.registerAudioObject(gameObjects);
+    // this.registerAudioObject(gameObjects);
+    this.registerSpriteImageTest(gameObjects);
     gameEngine.loadObjects(gameObjects);
   }
 
   private registerCirclesAndSquaresTest(gameObjects: IGameObject[]): void {
-    for (var i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
       let example = new Example();
       example.x = Math.floor(Math.random() * window.innerWidth * 1.5);
       example.y = Math.floor(Math.random() * window.innerHeight * 1.5);
@@ -42,7 +45,7 @@ export class GameStagingService {
   }
 
   private registerAudioObject(gameObjects: IGameObject[]): void {
-    var audioSettings = new AudioSettings("/assets/background.wav");
+    let audioSettings = new AudioSettings("/assets/background.wav");
     audioSettings.startTime = 0;
     audioSettings.maxDuration = 6.189333;
     audioSettings.volume = 1;
@@ -59,7 +62,7 @@ export class GameStagingService {
     example.renderer = example.x % 2 === 0 ? new Circle2DRenderer() : new Square2DRenderer();
     example.renderer.backgroundColor = "blue";
 
-    for (var i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++) {
       let child = new ExampleChild();
       child.xOffset = Math.floor(Math.random() * window.innerWidth / 2);
       child.yOffset = Math.floor(Math.random() * window.innerHeight / 2);
@@ -70,6 +73,35 @@ export class GameStagingService {
       example.attach(child);
     }
 
+    gameObjects.push(example);
+  }
+
+  private registerSpriteImageTest(gameObjects: IGameObject[]): void {
+
+    let spriteWidth = 400;
+    let spriteHeight = 450;
+    let spriteScale = 1;
+
+    let spriteOptions = new SpriteOptions();
+    spriteOptions.imagePath = "/assets/spritesheet.png";
+    spriteOptions.spriteHeight = spriteHeight;
+    spriteOptions.spriteWidth = spriteWidth;
+    spriteOptions.xScale = spriteScale;
+    spriteOptions.yScale = spriteScale;
+    spriteOptions.rowLength = 4;
+    spriteOptions.topOffset = 100;
+    spriteOptions.columnSelected = 0;
+    spriteOptions.columnLength = 4;
+    spriteOptions.rowSelected = 0;
+    spriteOptions.animationLengthTotalMilliseconds = 500;
+
+
+    let spriteRenderer = new SpriteRenderer(spriteOptions)
+    let example = new ExampleSpriteObject(spriteRenderer);
+    example.width = spriteWidth;
+    example.height = spriteHeight;
+    example.x = (window.innerWidth / 2) - (example.width / 2);
+    example.y = (window.innerHeight / 2) - (example.height / 2);
     gameObjects.push(example);
   }
 
