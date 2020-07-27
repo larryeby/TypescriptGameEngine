@@ -3,20 +3,35 @@ import { IGameObject } from '../game-objects/interfaces/gameobject.interface';
 
 export class StaticImageRenderer implements IRenderer {
     public backgroundColor = 'rgba(0, 0, 0, 0.4)'
-    public imagePath: string;
     public displayEdges: boolean;
     protected imageLoaded: boolean = false;
-    protected staged: boolean = false;
-    protected imageData: HTMLImageElement;
+    protected imageData: { [key: string]: HTMLImageElement } = { }; 
+    private selectedImage: string;
 
     constructor(imagePath: string, displayEdges: boolean = false) {
-        this.imagePath = imagePath;
-        this.imageData = new Image();
-        this.imageData.src = this.imagePath;
-        this.staged = true;
+        this.selectedImage = imagePath;
+        var image = new Image();
+        image.src = imagePath;
+        this.imageData[imagePath] = image;
         this.displayEdges = displayEdges;
-        this.imageData.addEventListener("load", () => {
+        this.imageData[imagePath].addEventListener("load", () => {
             this.imageLoaded = true;
+        }, { once: true });
+    }
+
+    public setImage(imagePath: string) {
+        if (this.imageData[imagePath]) {
+            this.selectedImage = imagePath;
+            return;
+        }
+
+        this.imageLoaded = false;
+        let image = new Image();
+        image.src = imagePath;
+        this.imageData[imagePath] = image;
+        image.addEventListener("load", () => {
+            this.imageLoaded = true;
+            this.selectedImage = imagePath;
         }, { once: true });
     }
 
@@ -31,7 +46,7 @@ export class StaticImageRenderer implements IRenderer {
 
         if (this.imageLoaded) {
             ctx.beginPath();
-            ctx.drawImage(this.imageData, object.x + object.xOffset, object.y + object.yOffset, object.width, object.height);
+            ctx.drawImage(this.imageData[this.selectedImage], object.x + object.xOffset, object.y + object.yOffset, object.width, object.height);
             ctx.closePath();
 
             if (this.displayEdges) {

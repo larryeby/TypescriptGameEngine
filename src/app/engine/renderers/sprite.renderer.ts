@@ -26,10 +26,10 @@ export class SpriteRenderer extends StaticImageRenderer {
         if (this.imageLoaded) {
             ctx.beginPath();
             if (this.options == null) {
-                ctx.drawImage(this.imageData, object.x, object.y, object.width, object.height);
+                ctx.drawImage(this.imageData[0], object.x, object.y, object.width, object.height);
             } else {
                 // image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight
-                ctx.drawImage(this.imageData, 
+                ctx.drawImage(this.imageData[0], 
                     
                     // Set Frame
                     this.options.getXFrame(), this.options.getYFrame(), 
