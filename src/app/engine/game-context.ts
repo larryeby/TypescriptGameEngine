@@ -42,6 +42,7 @@ export class GameContext {
     public registerObject(object: IGameObject): void {
         object.registerContext(this);
         this.gameObjects[object.id] = object;
+        object.children.forEach(child => this.registerObject(child));
     }
 
     public destroyObject(object: IGameObject): void {

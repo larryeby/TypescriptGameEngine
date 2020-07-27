@@ -51,10 +51,12 @@ export class GameEngine {
       
       // Check whether the item is in the frame before rendering.
       collisionObjects = collisionObjects.concat(object.children).filter(x => x.collider);
-      if (object.x - object.width + this.renderVariance <= window.innerWidth && 
-          object.x + object.width >= 0 - this.renderVariance &&
-          object.y - object.height - this.renderVariance <= window.innerHeight &&
-          object.y + object.height >= 0 + this.renderVariance) {
+
+      let objectAbsPosition = object.getAbsPosition()
+      if (objectAbsPosition.x - object.width + this.renderVariance <= window.innerWidth && 
+          objectAbsPosition.x + object.width >= 0 - this.renderVariance &&
+          objectAbsPosition.y - object.height - this.renderVariance <= window.innerHeight &&
+          objectAbsPosition.y + object.height >= 0 + this.renderVariance) {
             object.checkCollisions(collisionObjects);
             object.render(this.ctx);
       }
@@ -66,6 +68,8 @@ export class GameEngine {
           return child;
         }), collisionObjects);
       }
+
+      object.lateUpdate();
     });
   }
 

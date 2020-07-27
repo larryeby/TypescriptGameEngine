@@ -12,6 +12,9 @@ import { AudioSettings, BaseAudioPlayer } from '../engine/audio/audio.player';
 import { AudioGameObject } from '../object-extensions/example-audio.gameobject';
 import { SpriteRenderer, SpriteOptions } from '../engine/renderers/sprite.renderer';
 import { ExampleSpriteObject } from '../object-extensions/example-sprite-animation.gameobject';
+import { PlayerGameObject } from '../object-extensions/example-player.gameobject';
+import { BaseGameObject } from '../engine/game-objects/base.gameobject';
+import { WorldGameObject } from '../object-extensions/example-world-parent.gameobject';
 
 /**
  * Literally all of the code below is for testing purposes.
@@ -24,11 +27,13 @@ export class GameStagingService {
 
   public loadGameData(gameEngine: GameEngine): void {
     let gameObjects: IGameObject[] = [];
-    this.registerCirclesAndSquaresTest(gameObjects);
-    this.registerStaticImageTest(gameObjects);
-    this.registerChildObjectTest(gameObjects);
+    gameObjects.push(new WorldGameObject());
+    gameObjects.push(new PlayerGameObject());
+    // this.registerCirclesAndSquaresTest(gameObjects);
+    // this.registerStaticImageTest(gameObjects);
+    // this.registerChildObjectTest(gameObjects);
     // this.registerAudioObject(gameObjects);
-    this.registerSpriteImageTest(gameObjects);
+    // this.registerSpriteImageTest(gameObjects);
     gameEngine.loadObjects(gameObjects);
   }
 

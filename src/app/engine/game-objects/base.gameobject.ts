@@ -32,6 +32,9 @@ export class BaseGameObject implements IGameObject {
         this.initialize();
     }
 
+    getAbsPosition(): { x: number; y: number; } {
+        return { x: this.x + this.xOffset, y: this.y + this.yOffset }
+    }
 
     private state: { [key: string]: any; } = {};
     getState(key: string): any {
@@ -104,5 +107,6 @@ export class BaseGameObject implements IGameObject {
     };
 
     public update() { };
+    public lateUpdate() { }
     public onDestroy() { };
 }

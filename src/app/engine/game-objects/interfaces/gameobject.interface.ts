@@ -23,6 +23,7 @@ export interface IGameObject {
     initialize(): void;
     update(): void;
     render(ctx: CanvasRenderingContext2D): void;
+    lateUpdate(): void;
     attach(child: IGameObject): void;
     getState(key: string): any;
     setState(key: string, object: any): void;
@@ -32,4 +33,5 @@ export interface IGameObject {
     checkCollisions(input: IGameObject[]): void;
     onCollision(incoming: IGameObject): void;
     onDestroy(): void;
+    getAbsPosition(): { x: number, y: number};
 }

@@ -20,7 +20,7 @@ export class MouseGameObject implements IGameObject {
         this.xOffset = 0;
         this.yOffset = 0;
     }
-
+    
     id: string;
     parentId: string;
     x: number;
@@ -37,6 +37,7 @@ export class MouseGameObject implements IGameObject {
 
     initialize(): void { }
     update(): void { }
+    lateUpdate(): void { }
     render(ctx: CanvasRenderingContext2D): void { }
     attach(child: IGameObject): void { }
     getState(key: string) { }
@@ -57,5 +58,9 @@ export class MouseGameObject implements IGameObject {
         if (gameObject.id === this.collideCheckId) {
             this.collisionDetected = true;
         }
+    }
+
+    getAbsPosition(): { x: number; y: number; } {
+        return { x: this.x, y: this.y }
     }
 }
